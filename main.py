@@ -4,6 +4,8 @@ import subprocess
 import time
 import cv2
 import locale
+import platform
+import ctypes
 from locales import setup_locales, translate
 
 VERSION = "0.1"
@@ -185,8 +187,8 @@ class VideoTrimmerGUI(wx.Frame):
         self.output_folder = os.path.dirname(os.path.abspath(__file__))
         if not os.path.exists(self.output_folder):
             os.makedirs(self.output_folder)
-        
-        self.current_lang = 'tw'
+
+        self.current_lang = self.get_system_language()
         global translate
         translate = setup_locales(self.current_lang.lower())
 
@@ -210,7 +212,7 @@ class VideoTrimmerGUI(wx.Frame):
         menubar = wx.MenuBar()
         language_menu = wx.Menu()
         
-        languages = [('English', 'en'), ('繁體中文', 'tw')]
+        languages = [('English', 'en_US'), ('繁體中文', 'zh_TW')]
         for lang_name, lang_code in languages:
             lang_item = language_menu.Append(wx.ID_ANY, lang_name)
             self.Bind(wx.EVT_MENU, lambda evt, lc=lang_code: self.on_language_change(lc), lang_item)
@@ -268,7 +270,7 @@ class VideoTrimmerGUI(wx.Frame):
         self.layout.add_to_batch_btn.SetLabel(translate("Add Command to Batch"))
         self.layout.run_batch_btn.SetLabel(translate("Run Batch"))
         self.layout.delete_batch_btn.SetLabel(translate("Delete Selected Batch"))
-        self.layout.cleanup_batch_btn.SetLabel(translate("Clean Up Batch"))
+        self.layout.cleanup_batch_btn.SetLabel(translate("Clean Up Completed Batch"))
         self.layout.file_select_btn.SetLabel(translate("Select Video"))
         self.layout.output_folder_btn.SetLabel(translate("Select Folder"))
         self.layout.video_duration_text.SetLabel(f"{translate('Source File Total Time:')} {self.format_time(self.video_duration)}")
@@ -482,6 +484,31 @@ class VideoTrimmerGUI(wx.Frame):
             self.add_batch(batch['command'])
 
         wx.MessageBox(translate('Completed batch items have been removed.'), translate('Info'), wx.OK | wx.ICON_INFORMATION)
+
+    def get_system_language(self):
+        try:
+            system = platform.system()
+            
+            if system == "Windows":
+                import ctypes
+                windll = ctypes.windll.kernel32
+                lcid = windll.GetUserDefaultUILanguage()
+                return locale.windows_locale.get(lcid, 'en_US')
+            elif system == "Darwin":  # macOS
+                try:
+                    from Foundation import NSLocale
+                    language_code = NSLocale.preferredLanguages()[0]
+                    return language_code
+                except ImportError:
+                    # Fall back to environment variable if Foundation is not available
+                    import os
+                    return os.environ.get('LANG', 'en_US').split('.')[0]
+            else:  # Linux and other Unix-like systems
+                import os
+                return os.environ.get('LANG', 'en_US').split('.')[0]
+        except Exception as e:
+            print(f"Error detecting system language: {e}")
+            return 'en_US'  # Default to English if all else fails
 
     def on_close(self, event):
         cv2.destroyAllWindows()

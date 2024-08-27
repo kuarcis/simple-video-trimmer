@@ -14,7 +14,7 @@ REM Update the .pot file
 pybabel extract -k "translate" -o "%LOCALE_DIR%\video_trimmer.pot" "%MAIN_PY%"
 
 REM Update or create .po files for each language
-for %%L in (en tw) do (
+for %%L in (zh_TW en_US) do (
     if exist "%LOCALE_DIR%\%%L\LC_MESSAGES\messages.po" (
         echo Updating %%L translations...
         pybabel update -i "%LOCALE_DIR%\video_trimmer.pot" -d "%LOCALE_DIR%" -l %%L

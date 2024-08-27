@@ -1,4 +1,4 @@
-# Akan (Ghana) translations for PROJECT.
+# Chinese (Traditional, Taiwan) translations for PROJECT.
 # Copyright (C) 2024 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
@@ -7,182 +7,169 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-27 15:16+0800\n"
-"PO-Revision-Date: 2024-08-26 15:52+0800\n"
+"POT-Creation-Date: 2024-08-27 16:15+0800\n"
+"PO-Revision-Date: 2024-08-27 16:13+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: ak_GH\n"
-"Language-Team: ak_GH <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: zh_Hant_TW\n"
+"Language-Team: zh_Hant_TW <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: main.py:85 main.py:257
+#: main.py:87 main.py:260
 msgid "Input Video:"
 msgstr "來源影片"
 
-#: main.py:87 main.py:272
+#: main.py:89 main.py:275
 msgid "Select Video"
-msgstr "選擇影片檔案"
+msgstr "選取影片"
 
-#: main.py:95 main.py:258
+#: main.py:97 main.py:261
 msgid "Output Folder:"
 msgstr "輸出資料夾"
 
-#: main.py:97 main.py:273
+#: main.py:99 main.py:276
 msgid "Select Folder"
-msgstr "選擇輸出資料夾"
+msgstr "選取資料夾"
 
-#: main.py:113 main.py:274 main.py:322
+#: main.py:115 main.py:277 main.py:325
 msgid "Source File Total Time:"
 msgstr "來源檔案總時長"
 
-#: main.py:117 main.py:264
+#: main.py:119 main.py:267
 msgid "Preview at Selected Time"
 msgstr "預覽選取時間"
 
-#: main.py:133 main.py:261
+#: main.py:135 main.py:264
 msgid "Output File Name:"
 msgstr "輸出檔案名稱"
 
-#: main.py:145 main.py:267
+#: main.py:147 main.py:270
 msgid "Run Command"
 msgstr "執行命令"
 
-#: main.py:146 main.py:268
+#: main.py:148 main.py:271
 msgid "Add Command to Batch"
 msgstr "新增命令到批次"
 
-#: main.py:160 main.py:277
+#: main.py:162 main.py:280
 msgid "Seq"
 msgstr "序號"
 
-#: main.py:161 main.py:277
+#: main.py:163 main.py:280
 msgid "Command"
-msgstr "命令"
+msgstr "指令"
 
-#: main.py:162 main.py:277
+#: main.py:164 main.py:280
 msgid "Status"
 msgstr "狀態"
 
-#: main.py:166 main.py:269
+#: main.py:168 main.py:272
 msgid "Run Batch"
 msgstr "執行批次"
 
-#: main.py:169 main.py:270
+#: main.py:171 main.py:273
 msgid "Delete Selected Batch"
 msgstr "刪除選取批次"
 
-#: main.py:173
+#: main.py:175 main.py:274
 msgid "Clean Up Completed Batch"
-msgstr "清除完成批次"
+msgstr "清除已完成批次"
 
-#: main.py:218 main.py:285
+#: main.py:221 main.py:288
 msgid "Language"
 msgstr "語言"
 
-#: main.py:243 main.py:254
+#: main.py:246 main.py:257
 msgid "Video Trimmer GUI"
-msgstr "影片剪輯GUI"
+msgstr "影片修剪 GUI"
 
-#: main.py:259
+#: main.py:262
 msgid "Start Time:"
 msgstr "開始時間"
 
-#: main.py:260
+#: main.py:263
 msgid "End Time:"
 msgstr "結束時間"
 
-#: main.py:265
+#: main.py:268
 msgid "Set Start Time"
 msgstr "設定開始時間"
 
-#: main.py:266
+#: main.py:269
 msgid "Set End Time"
 msgstr "設定結束時間"
 
-#: main.py:271
-msgid "Clean Up Batch"
-msgstr "清除完成批次"
-
-#: main.py:288
+#: main.py:291
 msgid "Video Preview"
 msgstr "影片預覽"
 
-#: main.py:295
+#: main.py:298
 msgid "Video files"
-msgstr "選擇影片檔案"
+msgstr "影片檔案"
 
-#: main.py:296
+#: main.py:299
 msgid "Select a video file"
-msgstr "選擇影片檔案"
+msgstr "選取影片檔案"
 
-#: main.py:313
+#: main.py:316
 msgid "Failed to open the video file."
-msgstr "無法開啟影片檔案"
+msgstr "無法開啟影片檔案。"
 
-#: main.py:313 main.py:407 main.py:415 main.py:425 main.py:437
+#: main.py:316 main.py:410 main.py:418 main.py:428 main.py:440
 msgid "Error"
 msgstr "錯誤"
 
-#: main.py:326
+#: main.py:329
 msgid "Select output folder"
-msgstr "選擇輸出資料夾"
+msgstr "選取輸出資料夾"
 
-#: main.py:407
+#: main.py:410
 msgid "Invalid time range."
 msgstr "無效的時間範圍。"
 
-#: main.py:415
+#: main.py:418
 msgid "Invalid output file format. Please use a supported video format."
 msgstr "無效的輸出檔案格式。請使用支援的影片格式。"
 
-#: main.py:425
+#: main.py:428
 msgid "Error during command generation:"
-msgstr "發生錯誤"
+msgstr "在生成命令時發生錯誤："
 
-#: main.py:435
+#: main.py:438
 msgid "Trimming complete!"
-msgstr "剪輯完成"
+msgstr "修剪完成！"
 
-#: main.py:435 main.py:484
+#: main.py:438 main.py:487
 msgid "Info"
 msgstr "資訊"
 
-#: main.py:437
+#: main.py:440
 msgid "Error during trimming:"
-msgstr "剪輯時發生錯誤"
+msgstr "在修剪時發生錯誤："
 
-#: main.py:446 main.py:449
+#: main.py:449 main.py:452
 msgid "Not Run"
 msgstr "未執行"
 
-#: main.py:453 main.py:454
+#: main.py:456 main.py:457
 msgid "Running"
 msgstr "執行中"
 
-#: main.py:457 main.py:458 main.py:473
+#: main.py:460 main.py:461 main.py:476
 msgid "Done"
 msgstr "完成"
 
-#: main.py:460 main.py:461
+#: main.py:463 main.py:464
 msgid "Failed"
 msgstr "失敗"
 
-#: main.py:484
+#: main.py:487
 msgid "Completed batch items have been removed."
-msgstr "完成批次已經被移除"
+msgstr "已完成批次已經被移除。"
 
-#~ msgid "Toggle Batch Section"
-#~ msgstr "開關批次處理區"
-
-#~ msgid "Invalid time format. Please use HH:MM:SS."
-#~ msgstr "無效的時間格式。請使用HH:MM:SS格式。"
-
-#~ msgid "Browse"
-#~ msgstr "瀏覽"
-
-#~ msgid "Video files (*.mp4;*.avi;*.mov)|*.mp4;*.avi;*.mov"
-#~ msgstr "影片檔案 (*.mp4;*.avi;*.mov)|*.mp4;*.avi;*.mov"
+#~ msgid "Clean Up Batch"
+#~ msgstr ""
 
