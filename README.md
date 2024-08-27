@@ -54,4 +54,8 @@ Contributions to improve Video Trimmer GUI are welcome. Please feel free to subm
 
 ## License
 
-[Specify your license here]
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0). To view a copy of this license, visit https://creativecommons.org/licenses/by-nc/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+Copyright (c) 2023 kuarcis
+
+You are free to use, share, and adapt this work for non-commercial purposes, as long as you give appropriate credit to kuarcis and indicate if changes were made. For commercial use, please contact the author for permission.
