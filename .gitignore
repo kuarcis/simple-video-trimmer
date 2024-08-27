@@ -1,0 +1,76 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.env
+.venv/
+
+# IDE-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build and distribution files
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# FFmpeg executable (assuming it's distributed separately)
+ffmpeg.exe
+
+# Output folder (where trimmed videos might be saved by default)
+output/
+
+# Temporary files
+*.tmp
+
+# User-specific configuration files
+config.ini
+
+# Compiled translations
+*.mo
+
+# Backup files
+*.bak
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# mypy
+.mypy_cache/
+
+# pytest
+.pytest_cache/
+
+# Sphinx documentation
+docs/_build/
+
+# Batch files or scripts used for development
+*.sh
+
+# Any other project-specific files or folders that shouldn't be in the repository

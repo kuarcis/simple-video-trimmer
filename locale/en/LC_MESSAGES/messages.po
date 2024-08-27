@@ -1,0 +1,191 @@
+# English translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-08-27 15:16+0800\n"
+"PO-Revision-Date: 2024-08-26 15:52+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: main.py:85 main.py:257
+msgid "Input Video:"
+msgstr ""
+
+#: main.py:87 main.py:272
+msgid "Select Video"
+msgstr ""
+
+#: main.py:95 main.py:258
+msgid "Output Folder:"
+msgstr ""
+
+#: main.py:97 main.py:273
+msgid "Select Folder"
+msgstr ""
+
+#: main.py:113 main.py:274 main.py:322
+msgid "Source File Total Time:"
+msgstr ""
+
+#: main.py:117 main.py:264
+msgid "Preview at Selected Time"
+msgstr ""
+
+#: main.py:133 main.py:261
+msgid "Output File Name:"
+msgstr ""
+
+#: main.py:145 main.py:267
+msgid "Run Command"
+msgstr ""
+
+#: main.py:146 main.py:268
+msgid "Add Command to Batch"
+msgstr ""
+
+#: main.py:160 main.py:277
+msgid "Seq"
+msgstr ""
+
+#: main.py:161 main.py:277
+msgid "Command"
+msgstr ""
+
+#: main.py:162 main.py:277
+msgid "Status"
+msgstr ""
+
+#: main.py:166 main.py:269
+msgid "Run Batch"
+msgstr ""
+
+#: main.py:169 main.py:270
+msgid "Delete Selected Batch"
+msgstr ""
+
+#: main.py:173
+msgid "Clean Up Completed Batch"
+msgstr ""
+
+#: main.py:218 main.py:285
+msgid "Language"
+msgstr ""
+
+#: main.py:243 main.py:254
+msgid "Video Trimmer GUI"
+msgstr ""
+
+#: main.py:259
+msgid "Start Time:"
+msgstr ""
+
+#: main.py:260
+msgid "End Time:"
+msgstr ""
+
+#: main.py:265
+msgid "Set Start Time"
+msgstr ""
+
+#: main.py:266
+msgid "Set End Time"
+msgstr ""
+
+#: main.py:271
+msgid "Clean Up Batch"
+msgstr ""
+
+#: main.py:288
+msgid "Video Preview"
+msgstr ""
+
+#: main.py:295
+msgid "Video files"
+msgstr ""
+
+#: main.py:296
+msgid "Select a video file"
+msgstr ""
+
+#: main.py:313
+msgid "Failed to open the video file."
+msgstr ""
+
+#: main.py:313 main.py:407 main.py:415 main.py:425 main.py:437
+msgid "Error"
+msgstr ""
+
+#: main.py:326
+msgid "Select output folder"
+msgstr ""
+
+#: main.py:407
+msgid "Invalid time range."
+msgstr ""
+
+#: main.py:415
+msgid "Invalid output file format. Please use a supported video format."
+msgstr ""
+
+#: main.py:425
+msgid "Error during command generation:"
+msgstr ""
+
+#: main.py:435
+msgid "Trimming complete!"
+msgstr ""
+
+#: main.py:435 main.py:484
+msgid "Info"
+msgstr ""
+
+#: main.py:437
+msgid "Error during trimming:"
+msgstr ""
+
+#: main.py:446 main.py:449
+msgid "Not Run"
+msgstr ""
+
+#: main.py:453 main.py:454
+msgid "Running"
+msgstr ""
+
+#: main.py:457 main.py:458 main.py:473
+msgid "Done"
+msgstr ""
+
+#: main.py:460 main.py:461
+msgid "Failed"
+msgstr ""
+
+#: main.py:484
+msgid "Completed batch items have been removed."
+msgstr ""
+
+#~ msgid "Toggle Batch Section"
+#~ msgstr ""
+
+#~ msgid "Invalid time format. Please use HH:MM:SS."
+#~ msgstr ""
+
+#~ msgid "Browse"
+#~ msgstr ""
+
+#~ msgid "Video files (*.mp4;*.avi;*.mov)|*.mp4;*.avi;*.mov"
+#~ msgstr ""
+
+#~ msgid "Invalid output file format. Please use .mp4, .avi, or .mov."
+#~ msgstr ""
+
