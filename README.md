@@ -1,5 +1,5 @@
 # Video Trimmer GUI
-<img width="30%" alt="screenshot" src="https://github.com/user-attachments/assets/a36b95c4-b65a-41c7-9152-238986125288">
+<img width="90%" alt="screenshot" src="https://github.com/user-attachments/assets/a36b95c4-b65a-41c7-9152-238986125288">
 
 Video Trimmer GUI is a simple application that allows users to trim video files using a graphical interface. It leverages FFmpeg for video processing and provides an easy-to-use interface for selecting start and end times for video trimming.
 
