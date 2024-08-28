@@ -1,4 +1,5 @@
 # Video Trimmer GUI
+<img width="30%" alt="screenshot" src="https://github.com/user-attachments/assets/a36b95c4-b65a-41c7-9152-238986125288">
 
 Video Trimmer GUI is a simple application that allows users to trim video files using a graphical interface. It leverages FFmpeg for video processing and provides an easy-to-use interface for selecting start and end times for video trimming.
 
@@ -6,7 +7,8 @@ Video Trimmer GUI is a simple application that allows users to trim video files 
 
 Current version: 0.2
 
-## Requirements
+## Requirements<img width="1433" alt="screenshot" src="https://github.com/user-attachments/assets/0f7dbaf5-0471-428e-a4e9-12e3becbfc25">
+
 
 - Python 3.7+
 - wxPython 4.2.0+
