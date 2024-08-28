@@ -39,8 +39,14 @@ Current version: 0.1
 ## Limitations
 
 - The application requires a standalone `ffmpeg.exe` to be placed in the same directory as the program.
-- The preview functionality may be slower for high-resolution videos.
-- The application currently supports a limited number of video formats. Check the supported extensions in the file selection dialog.
+- The preview functionality ma+ ### Supported File Formats
+-
+- The supported file formats are the same as FFmpeg's, due to the use of OpenCV and FFmpeg executable. This means that our API supports a wide range of file formats, including but not limited to:
+-
+- * Video formats: MP4, AVI, MOV, MKV, etc.
+- * Image formats: JPEG, PNG, BMP, TIFF, etc.
+-
+- Please note that the actual list of supported formats may vary depending on the specific FFmpeg version used.y be slower for high-resolution videos.
 - Batch processing is sequential and may take a long time for multiple large video files.
 
 ## Language Support
