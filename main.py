@@ -2,13 +2,18 @@ import wx
 import os
 import subprocess
 import time
-import cv2
+import ffmpeg
 import locale
 import platform
-import ctypes
 from locales import setup_locales, translate
 
-VERSION = "0.1"
+VERSION = "0.2"
+
+# Set FFmpeg binary paths
+current_dir = os.path.dirname(os.path.abspath(__file__))
+ffmpeg.input.DEFAULT_FFMPEG_PATH = os.path.join(current_dir, 'ffmpeg')
+ffmpeg.input.DEFAULT_FFPROBE_PATH = os.path.join(current_dir, 'ffprobe')
+ffmpeg.input.DEFAULT_FFPLAY_PATH = os.path.join(current_dir, 'ffplay')
 
 class SmoothSlider(wx.Panel):
     def __init__(self, parent, value=0, min_val=0, max_val=100):
@@ -116,7 +121,7 @@ class VideoTrimmerLayout(wx.Panel):
         sizer.Add(self.video_duration_text, 0, wx.ALIGN_CENTER | wx.ALL, 5)
 
         # Preview button
-        self.preview_btn = wx.Button(panel, label=translate("Preview at Selected Time"))
+        self.preview_btn = wx.Button(panel, label=translate("Toggle Preview"))
         sizer.Add(self.preview_btn, 0, wx.EXPAND | wx.ALL, 5)
 
         # Start and End time controls
@@ -183,7 +188,6 @@ class VideoTrimmerGUI(wx.Frame):
         super(VideoTrimmerGUI, self).__init__(*args, **kw, size=(1200, 600))
         self.current_video = None
         self.video_duration = 0
-        self.cap = None
         self.output_folder = os.path.dirname(os.path.abspath(__file__))
         if not os.path.exists(self.output_folder):
             os.makedirs(self.output_folder)
@@ -195,8 +199,7 @@ class VideoTrimmerGUI(wx.Frame):
         self.InitUI()
         self.batches = []
         self.is_updating_command = False
-        self.preview_window_name = "Video Preview"
-        cv2.namedWindow(self.preview_window_name, cv2.WINDOW_NORMAL)
+        self.preview_window = None
         self.Bind(wx.EVT_CLOSE, self.on_close)
 
         self.video_extensions = [
@@ -232,7 +235,7 @@ class VideoTrimmerGUI(wx.Frame):
         self.layout.file_select_btn.Bind(wx.EVT_BUTTON, self.on_file_select)
         self.layout.output_folder_btn.Bind(wx.EVT_BUTTON, self.on_output_folder_select)
         self.layout.time_slider.Bind(wx.EVT_SLIDER, self.on_time_slider_change)
-        self.layout.preview_btn.Bind(wx.EVT_BUTTON, self.on_preview)
+        self.layout.preview_btn.Bind(wx.EVT_BUTTON, self.on_preview_toggle)
         self.layout.start_time_btn.Bind(wx.EVT_BUTTON, self.on_set_start_time)
         self.layout.end_time_btn.Bind(wx.EVT_BUTTON, self.on_set_end_time)
         self.layout.output_file_name_text.Bind(wx.EVT_TEXT, self.on_output_file_name_changed)
@@ -263,7 +266,7 @@ class VideoTrimmerGUI(wx.Frame):
         self.layout.output_file_label.SetLabel(translate("Output File Name:"))
         
         # Update button labels
-        self.layout.preview_btn.SetLabel(translate("Preview at Selected Time"))
+        self.layout.preview_btn.SetLabel(translate("Toggle Preview"))
         self.layout.start_time_btn.SetLabel(translate("Set Start Time"))
         self.layout.end_time_btn.SetLabel(translate("Set End Time"))
         self.layout.run_command_btn.SetLabel(translate("Run Command"))
@@ -286,12 +289,14 @@ class VideoTrimmerGUI(wx.Frame):
         # Update menu
         self.GetMenuBar().SetMenuLabel(0, translate("Language"))
 
-        # Update preview window title
-        cv2.setWindowTitle(self.preview_window_name, translate("Video Preview"))
-
         # Refresh the layout
         self.layout.Layout()
         self.Layout()
+
+        # Close and reopen preview window if it exists
+        if self.preview_window:
+            self.close_preview()
+            self.show_frame(int(self.layout.time_slider.GetValue()))
 
     def on_file_select(self, event):
         wildcard = f"{translate('Video files')} ({';'.join(self.video_extensions)})|{';'.join(self.video_extensions)}"
@@ -307,14 +312,17 @@ class VideoTrimmerGUI(wx.Frame):
         if not self.current_video:
             return
 
+        try:
+            probe = ffmpeg.probe(self.current_video)
+            video_info = next(s for s in probe['streams'] if s['codec_type'] == 'video')
+            self.video_duration = int(float(video_info['duration']) * 1000)  # Convert to milliseconds
+        except ffmpeg.Error as e:
+            wx.MessageBox(f"{translate('Error reading video file:')} {str(e)}", translate("Error"), wx.OK | wx.ICON_ERROR)
+            return
+
         output_filename = os.path.splitext(os.path.basename(self.current_video))[0] + "_trimmed.mp4"
         output_path = os.path.join(self.output_folder, output_filename)
         self.layout.output_file_name_text.SetValue(output_filename)
-        self.cap = cv2.VideoCapture(self.current_video)
-        if not self.cap.isOpened():
-            wx.MessageBox(translate("Failed to open the video file."), translate("Error"), wx.OK | wx.ICON_ERROR)
-            return
-        self.video_duration = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT) / self.cap.get(cv2.CAP_PROP_FPS) * 1000)  # Convert to milliseconds
         self.layout.time_slider.SetValue(0)
         self.layout.time_slider.max_val = self.video_duration
         self.layout.command_text.SetValue("")        
@@ -322,6 +330,8 @@ class VideoTrimmerGUI(wx.Frame):
         self.layout.end_time_text.SetValue("")
         self.layout.current_time_text.SetLabel(self.format_time(0))
         self.layout.video_duration_text.SetLabel(f"{translate('Source File Total Time:')} {self.format_time(self.video_duration)}")
+        
+        # Open preview window and show first frame
         self.show_frame(0)
 
     def on_output_folder_select(self, event):
@@ -337,16 +347,18 @@ class VideoTrimmerGUI(wx.Frame):
         wx.CallAfter(self.update_command)
         event.Skip()
 
-    def on_preview(self, event):
-        if self.cap:
-            selected_time = int(self.layout.time_slider.GetValue())
-            self.show_frame(selected_time)
+    def on_preview_toggle(self, event):
+        if self.preview_window:
+            self.close_preview()            
+        else:
+            self.show_frame(int(self.layout.time_slider.GetValue()))
 
     def on_time_slider_change(self, event):
         selected_time = int(self.layout.time_slider.GetValue())
         formatted_time = self.format_time(selected_time)
         self.layout.current_time_text.SetLabel(formatted_time)
-        self.show_frame(selected_time)
+        if self.preview_window:
+            self.show_frame(selected_time)
 
     def on_set_start_time(self, event):
         start_time = int(self.layout.time_slider.GetValue())
@@ -379,18 +391,35 @@ class VideoTrimmerGUI(wx.Frame):
         return int(h) * 3600000 + int(m) * 60000 + int(s) * 1000 + int(ms)
 
     def show_frame(self, time_milliseconds):
-        if self.cap:
-            fps = self.cap.get(cv2.CAP_PROP_FPS)
-            self.cap.set(cv2.CAP_PROP_POS_MSEC, time_milliseconds)
-            ret, frame = self.cap.read()
-            if ret:
-                height, width, _ = frame.shape
-                aspect_ratio = width / height
-                window_width = 1024
-                window_height = int(window_width / aspect_ratio)
-                frame_resized = cv2.resize(frame, (window_width, window_height))
-                cv2.imshow(self.preview_window_name, frame_resized)
-                cv2.waitKey(1)
+        if self.current_video:
+            try:
+                out, _ = (
+                    ffmpeg
+                    .input(self.current_video, ss=time_milliseconds/1000)
+                    .filter('scale', 640, -1)
+                    .output('pipe:', vframes=1, format='rawvideo', pix_fmt='rgb24')
+                    .run(capture_stdout=True, capture_stderr=True)
+                )
+                
+                width = 640
+                height = int(len(out) / (width * 3))
+                frame = wx.Image(width, height, out)
+                
+                if not self.preview_window:
+                    self.preview_window = wx.Frame(self, title=translate("Video Preview"))
+                    self.preview_panel = wx.Panel(self.preview_window)
+                
+                self.preview_bitmap = wx.StaticBitmap(self.preview_panel, -1, wx.Bitmap(frame))
+                self.preview_window.SetClientSize(self.preview_bitmap.GetSize())
+                self.preview_window.Show()
+                
+            except ffmpeg.Error as e:
+                wx.MessageBox(f"{translate('Error generating preview:')} {str(e)}", translate("Error"), wx.OK | wx.ICON_ERROR)
+
+    def close_preview(self):
+        if self.preview_window:
+            self.preview_window.Destroy()
+            self.preview_window = None
 
     def update_command(self):
         try:
@@ -420,7 +449,7 @@ class VideoTrimmerGUI(wx.Frame):
                 if not os.path.isabs(output_file):
                     output_file = os.path.join(self.output_folder, os.path.basename(output_file))                
 
-                command = f"ffmpeg -i \"{self.current_video}\" -ss {self.parse_time(start_time)}ms -to {self.parse_time(end_time)}ms -c copy \"{output_file}\""
+                command = f"ffmpeg -y -i \"{self.current_video}\" -ss {self.parse_time(start_time)}ms -to {self.parse_time(end_time)}ms -c copy \"{output_file}\""
                 self.layout.command_text.SetValue(command)
             
         except Exception as e:
@@ -433,10 +462,12 @@ class VideoTrimmerGUI(wx.Frame):
         command = self.layout.command_text.GetValue()
         if command:
             try:
-                result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
+                subprocess.run(command, shell=True, check=True)
                 wx.MessageBox(translate('Trimming complete!'), translate('Info'), wx.OK | wx.ICON_INFORMATION)
             except subprocess.CalledProcessError as e:
-                wx.MessageBox(f"{translate('Error during trimming:')} {e.stderr}", translate('Error'), wx.OK | wx.ICON_ERROR)
+                wx.MessageBox(f"{translate('Error during trimming:')} {str(e)}", translate('Error'), wx.OK | wx.ICON_ERROR)
+            finally:
+                self.layout.command_text.SetValue(command)
 
     def on_add_to_batch(self, event):
         command = self.layout.command_text.GetValue()
@@ -511,7 +542,7 @@ class VideoTrimmerGUI(wx.Frame):
             return 'en_US'  # Default to English if all else fails
 
     def on_close(self, event):
-        cv2.destroyAllWindows()
+        self.close_preview()
         event.Skip()
 
 def main():
