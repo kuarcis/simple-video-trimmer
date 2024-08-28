@@ -7,7 +7,7 @@ Video Trimmer GUI is a simple application that allows users to trim video files 
 
 Current version: 0.2
 
-## Requirements<img width="1433" alt="screenshot" src="https://github.com/user-attachments/assets/0f7dbaf5-0471-428e-a4e9-12e3becbfc25">
+## Requirements
 
 
 - Python 3.7+
