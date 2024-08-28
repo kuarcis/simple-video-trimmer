@@ -1,7 +1,7 @@
-# Chinese (Traditional, Taiwan) translations for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# Chinese (Traditional, Taiwan) translations for the project simple-video-trimmer.
+# Copyright (C) 2024 kuarcis
+# This file is distributed under the same license as the project simple-video-trimmer.
+# kuarcis 2024.
 #
 msgid ""
 msgstr ""
